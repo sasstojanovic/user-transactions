@@ -1,0 +1,16 @@
+.c-spinner {
+  width: 25px;
+  height: 25px;
+}
+::ng-deep .c-spinner .p-progressspinner-circle {
+  stroke: #ffffff !important;
+}
+
+.c-error-info {
+  height: 20px;
+}
+
+.c-error-info small {
+  display: block;
+  color: var(--p-red-400);
+}

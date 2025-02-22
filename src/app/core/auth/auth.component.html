@@ -1,0 +1,71 @@
+<div class="flex items-center justify-center h-screen bg-gray-100">
+  <div class="p-6 w-[400px] bg-white rounded-md shadow-md">
+    <h2 class="text-2xl font-bold mb-4">Sign In</h2>
+    <form [formGroup]="signInForm" (ngSubmit)="onSignIn()">
+      <div>
+        <label for="email" class="block text-sm font-medium">Email</label>
+        <input
+          id="email"
+          type="email"
+          pInputText
+          formControlName="email"
+          class="w-full p-2 border rounded mt-1"
+          [ngClass]="{ 'p-invalid': email!.invalid && email!.touched }"
+        />
+        <div class="c-error-info">
+          <div *ngIf="email!.invalid && email!.touched" class="p-error">
+            <small *ngIf="email!.errors?.['required']">Email is required</small>
+            <small *ngIf="email!.errors?.['email']">Enter a valid email</small>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium">Password</label>
+        <input
+          id="password"
+          type="password"
+          pInputText
+          formControlName="password"
+          class="w-full p-2 border rounded mt-1"
+          [ngClass]="{ 'p-invalid': password!.invalid && password!.touched }"
+        />
+        <div class="c-error-info">
+          <div *ngIf="password!.invalid && password!.touched" class="p-error">
+            <small *ngIf="password!.errors?.['required']"
+              >Password is required</small
+            >
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        pButton
+        [disabled]="signInForm.invalid || isSubmitting"
+        class="w-full mt-3"
+      >
+        <p-progress-spinner
+          *ngIf="isSubmitting"
+          strokeWidth="4"
+          fill="transparent"
+          [style]="{ width: '25px', height: '25px' }"
+          class="c-spinner"
+        ></p-progress-spinner>
+
+        <span *ngIf="!isSubmitting">Sign In</span>
+      </button>
+
+      <div class="c-error-info">
+        <div *ngIf="errors" class="p-error">
+          <small>{{ errors }}</small>
+        </div>
+      </div>
+    </form>
+    <div class="mt-1 text-center">
+      <button (click)="onSignUp()" class="text-blue-500">
+        Don't have an account? Sign Up
+      </button>
+    </div>
+  </div>
+</div>

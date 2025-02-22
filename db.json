@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": 2,
+      "name": "James",
+      "surname": "Lebron",
+      "email": "james.lebron@example.com",
+      "password": "123456",
+      "accountAmount": 3000
+    },
+    {
+      "email": "luka.doncic@example.com",
+      "password": "$2a$10$FkaNEFQQVuQFPElwuYc4JeTAQdl68zFG.8OXk6DfuOTrK3s2dkMem",
+      "name": "Luka",
+      "surname": "Doncic",
+      "accountAmount": 0,
+      "id": 3
+    },
+    {
+      "email": "sasa.stojanovic@outlook.com",
+      "password": "$2a$10$pO0ClNcRVPQEACCo6ADx6uyHPlO3Q8si9Zc8xMT7V2TkgQHbsqwyq",
+      "name": "Saša",
+      "surname": "Stojanović",
+      "accountAmount": "3",
+      "id": 4
+    }
+  ]
+}

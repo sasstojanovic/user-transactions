@@ -1,0 +1,15 @@
+app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+main {
+  margin-top: 58px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 58px);
+  padding: 20px;
+}

@@ -1,0 +1,8 @@
+<ng-container *ngIf="config.data">
+  <p class="mb-4 mt-4">{{ config.data.message }}</p>
+</ng-container>
+<p-footer>
+  <button type="button" pButton class="w-full mt-4 p-button" (click)="close()">
+    OK
+  </button>
+</p-footer>
