@@ -1,5 +1,5 @@
-<div class="flex items-center justify-center h-screen bg-gray-100">
-  <div class="p-6 w-[400px] bg-white rounded-md shadow-md">
+<div class="flex items-center justify-center h-screen">
+  <div class="p-6 w-[400px] rounded-xl shadow-md bg-zinc-900">
     <h2 class="text-2xl font-bold mb-4">Sign In</h2>
     <form [formGroup]="signInForm" (ngSubmit)="onSignIn()">
       <div>
@@ -43,7 +43,7 @@
         type="submit"
         pButton
         [disabled]="signInForm.invalid || isSubmitting"
-        class="w-full mt-3"
+        class="w-full mt-3 p-button p-button-primary"
       >
         <p-progress-spinner
           *ngIf="isSubmitting"
@@ -53,7 +53,7 @@
           class="c-spinner"
         ></p-progress-spinner>
 
-        <span *ngIf="!isSubmitting">Sign In</span>
+        <span *ngIf="!isSubmitting" class="p-button-label">Sign In</span>
       </button>
 
       <div class="c-error-info">
@@ -63,9 +63,12 @@
       </div>
     </form>
     <div class="mt-1 text-center">
-      <button (click)="onSignUp()" class="text-blue-500">
-        Don't have an account? Sign Up
-      </button>
+      <button
+        pButton
+        label="Don't have an account? Sign Up"
+        (click)="onSignUp()"
+        class="w-full p-button p-button-link"
+      ></button>
     </div>
   </div>
 </div>

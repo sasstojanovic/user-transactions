@@ -1,5 +1,8 @@
 <app-header *ngIf="isAuthenticated$ | async"></app-header>
 
-<main class="bg-gray-100 flex-1">
+<main
+  [ngClass]="{ 'logged-in': isAuthenticated$ | async }"
+  class="bg-neutral-200 flex-1"
+>
   <router-outlet></router-outlet>
 </main>

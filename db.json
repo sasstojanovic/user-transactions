@@ -13,7 +13,7 @@
       "password": "$2a$10$FkaNEFQQVuQFPElwuYc4JeTAQdl68zFG.8OXk6DfuOTrK3s2dkMem",
       "name": "Luka",
       "surname": "Doncic",
-      "accountAmount": 0,
+      "accountAmount": 105,
       "id": 3
     },
     {
@@ -21,7 +21,7 @@
       "password": "$2a$10$pO0ClNcRVPQEACCo6ADx6uyHPlO3Q8si9Zc8xMT7V2TkgQHbsqwyq",
       "name": "Saša",
       "surname": "Stojanović",
-      "accountAmount": "3",
+      "accountAmount": 3,
       "id": 4
     }
   ]

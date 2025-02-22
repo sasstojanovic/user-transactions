@@ -7,9 +7,12 @@ app-header {
 }
 
 main {
-  margin-top: 58px;
   display: flex;
   flex-direction: column;
+}
+
+main.logged-in {
+  margin-top: 58px;
   height: calc(100vh - 58px);
   padding: 20px;
 }

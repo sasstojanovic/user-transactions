@@ -77,4 +77,20 @@ export class UserService {
     const userId = localStorage.getItem('userId');
     return userId ? parseInt(userId, 10) : null;
   }
+
+  updateAmount(userData: {
+    userId: number;
+    accountAmount: number;
+  }): Observable<any> {
+    console.log('userData: ', userData);
+    return this.http
+      .patch(`${this.apiUrl}/users/${userData.userId}`, {
+        accountAmount: userData.accountAmount,
+      })
+      .pipe(
+        tap((updatedUser) => {
+          this.currentUserSubject.next(updatedUser as User);
+        })
+      );
+  }
 }

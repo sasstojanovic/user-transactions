@@ -1,6 +1,6 @@
-<p-menubar [model]="items">
+<p-menubar [model]="items" class="bg-zinc-900">
   <ng-template #start>
-    <img src="logo.webp" alt="Logo" width="33" height="33" class="mr-4 ml-4" />
+    <img src="logo.png" alt="Logo" width="33" height="33" class="mr-4 ml-4" />
   </ng-template>
   <ng-template #item let-item let-root="root">
     <a
@@ -21,7 +21,12 @@
   </ng-template>
   <ng-template #end>
     <div class="flex items-center gap-2">
-      <p-button label="Sign Out" (click)="signOut()"></p-button>
+      <button
+        pButton
+        label="Sign Out"
+        class="p-button p-button-link"
+        (click)="signOut()"
+      ></button>
     </div>
   </ng-template>
 </p-menubar>
