@@ -1,8 +1,7 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { UserService } from './services/user.service';
 import { map, switchMap, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { UserService } from './services/user.service';
 
 export const adminGuard: CanActivateFn = (route, state) => {
   const userService = inject(UserService);
