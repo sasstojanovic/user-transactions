@@ -102,15 +102,26 @@ export class RegistrationComponent {
       this.isSubmitting = true;
       this.errors = null;
 
+      let userData: User = {
+        email: this.registrationForm.value.email,
+        name: this.registrationForm.value.name,
+        surname: this.registrationForm.value.surname,
+        accountAmount: parseFloat(this.registrationForm.value.accountAmount),
+        password: this.registrationForm.value.password,
+      };
+
       this.userService
-        .signup(this.registrationForm.value as User)
+        .signup(userData)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: () => {
             this.openSuccessDialog();
           },
           error: (err) => {
+            this.isSubmitting = false;
             this.errors = err.error;
+          },
+          complete: () => {
             this.isSubmitting = false;
           },
         });
@@ -121,7 +132,7 @@ export class RegistrationComponent {
     this.dialogRef.close();
     this.dialogRef = this.dialogService.open(InfoDialogComponent, {
       data: {
-        message: 'The account has been successfully created!',
+        message: 'The account has been successfully created! Please Sign In!',
       },
       header: 'Sign Up',
       width: '400px',
@@ -131,6 +142,7 @@ export class RegistrationComponent {
   }
 
   onCancel() {
+    this.registrationForm.reset();
     this.dialogRef.close();
   }
 

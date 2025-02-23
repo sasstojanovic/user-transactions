@@ -64,18 +64,20 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(user: User) {
-    this.userService
-      .deleteUser(user.id)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: () => {
-          this.getUsers();
-          this.openSuccessDialog();
-        },
-        error: (err) => {
-          // TODO: Catch errors
-        },
-      });
+    if (user.id) {
+      this.userService
+        .deleteUser(user.id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.getUsers();
+            this.openSuccessDialog();
+          },
+          error: (err) => {
+            // TODO: Catch errors
+          },
+        });
+    }
   }
 
   openSuccessDialog() {

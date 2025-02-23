@@ -48,7 +48,7 @@
           <small *ngIf="email!.errors?.['required']">Email is required</small>
           <small *ngIf="email!.errors?.['email']">Enter a valid email</small>
           <small *ngIf="email!.errors?.['emailExists']"
-            >This email is already in use.</small
+            >This email is already in use</small
           >
         </div>
       </div>
@@ -73,8 +73,8 @@
             >Password must be at least 5 characters</small
           >
           <small *ngIf="password!.errors?.['pattern']"
-            >Password must contain at least one uppercase letter, one special
-            character, and one number</small
+            >Password must include an uppercase letter, a special character, and
+            a number</small
           >
         </div>
       </div>

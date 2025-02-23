@@ -63,8 +63,8 @@ export class ChangeAmountComponent {
       this.isSubmitting = true;
       this.errors = null;
       let userData: { userId: number; accountAmount: number } = {
-        userId: this.user!.id,
-        accountAmount: Number(this.amountForm.value.accountAmount),
+        userId: this.user!.id ?? 0,
+        accountAmount: parseFloat(this.amountForm.value.accountAmount),
       };
       this.userService
         .updateAmount(userData)

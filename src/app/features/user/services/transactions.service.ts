@@ -60,7 +60,9 @@ export class TransactionsService {
 
   updateTransaction(
     transaction: Transaction,
-    user: User | null
+    user: User | null,
+    newUserAmount: number,
+    isExternal?: boolean
   ): Observable<Transaction> {
     return this.http
       .patch<Transaction>(
@@ -69,16 +71,25 @@ export class TransactionsService {
       )
       .pipe(
         switchMap((newTransaction) => {
-          if (!user?.id || user.accountAmount === undefined) {
+          if (user?.id) {
+            if (isExternal) {
+              return this.userService
+                .updateExternalUserAmount({
+                  userId: user.id,
+                  accountAmount: newUserAmount,
+                })
+                .pipe(map(() => newTransaction));
+            } else {
+              return this.userService
+                .updateAmount({
+                  userId: user.id,
+                  accountAmount: newUserAmount,
+                })
+                .pipe(map(() => newTransaction));
+            }
+          } else {
             return throwError(() => new Error('Invalid user data'));
           }
-
-          return this.userService
-            .updateAmount({
-              userId: user.id,
-              accountAmount: user.accountAmount,
-            })
-            .pipe(map(() => newTransaction));
         }),
         tap((updatedTransaction) => {
           const transactions = this.transactionsSubject.value.map((t) =>

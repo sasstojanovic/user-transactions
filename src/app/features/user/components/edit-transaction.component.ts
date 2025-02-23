@@ -50,6 +50,7 @@ export class EditTransactionComponent {
   transactionForm: FormGroup;
   user: User | null = null;
   transaction: Transaction | null = null;
+  isExternal: boolean = false;
   destroyRef = inject(DestroyRef);
 
   constructor(
@@ -61,6 +62,7 @@ export class EditTransactionComponent {
   ) {
     this.user = this.config.data?.user || null;
     this.transaction = this.config.data?.transaction || null;
+    this.isExternal = this.config.data?.isExternal || false;
 
     this.transactionForm = new FormGroup({
       itemPurchased: new FormControl(this.transaction?.itemPurchased || '', [
@@ -101,40 +103,67 @@ export class EditTransactionComponent {
 
   amountSpentValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      if (!this.user) {
+      if (this.user && this.user.id) {
+        return this.userService.getUserAmount(this.user.id).pipe(
+          debounceTime(500),
+          switchMap((accountAmount) => {
+            if (this.transaction) {
+              let newUserAmount = 0;
+              let difference =
+                parseFloat(this.amountSpent?.value) -
+                this.transaction?.amountSpent;
+              newUserAmount = accountAmount - difference;
+
+              return newUserAmount >= 0 ? of(null) : of({ amountSpent: true });
+            } else {
+              let remainingAmount = 0;
+              remainingAmount = accountAmount - this.amountSpent?.value;
+              return remainingAmount >= 0
+                ? of(null)
+                : of({ amountSpent: true });
+            }
+          }),
+          catchError(() => of(null)),
+          first()
+        );
+      } else {
         return new Observable((observer) => observer.next(null));
       }
-
-      return this.userService.getUserAmount(this.user.id).pipe(
-        debounceTime(500),
-        switchMap((accountAmount) => {
-          // TODO: Fix problem with edit transaction
-          let remainingAmount = 0;
-          remainingAmount = accountAmount - this.amountSpent?.value;
-          return remainingAmount >= 0 ? of(null) : of({ amountSpent: true });
-        }),
-        catchError(() => of(null)),
-        first()
-      );
     };
   }
 
   onSubmit() {
     if (this.transactionForm.valid) {
-      // TODO: Check types
-      let transactionData = {
-        ...this.transactionForm.value,
-        userId: this.user?.id,
-      };
       this.isSubmitting = true;
       this.errors = null;
+      let transactionData = {
+        itemPurchased: this.transactionForm.value.itemPurchased,
+        itemCategory: this.transactionForm.value.itemCategory,
+        dateOfPurchase: this.transactionForm.value.dateOfPurchase,
+        amountSpent: parseFloat(this.transactionForm.value.amountSpent),
+        userId: this.user?.id,
+      };
 
       if (this.transaction) {
+        let newUserAmount: number = 0;
+
+        if (
+          this.transaction.amountSpent &&
+          (this.user?.accountAmount || this.user?.accountAmount === 0)
+        ) {
+          let difference =
+            parseFloat(this.transactionForm.value.amountSpent) -
+            this.transaction?.amountSpent;
+          newUserAmount = this.user?.accountAmount - difference;
+        }
+
         // Edit transaction
         this.transactionsService
           .updateTransaction(
             { ...transactionData, id: this.transaction?.id } as Transaction,
-            this.user
+            this.user,
+            newUserAmount,
+            this.isExternal
           )
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe({
@@ -145,7 +174,10 @@ export class EditTransactionComponent {
               );
             },
             error: (err) => {
+              this.isSubmitting = false;
               this.errors = err.error;
+            },
+            complete: () => {
               this.isSubmitting = false;
             },
           });
@@ -162,7 +194,10 @@ export class EditTransactionComponent {
               );
             },
             error: (err) => {
+              this.isSubmitting = false;
               this.errors = err.error;
+            },
+            complete: () => {
               this.isSubmitting = false;
             },
           });

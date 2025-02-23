@@ -47,7 +47,7 @@ export class UserTransactionsComponent {
     this.transactions$ = this.transactionsService.transactions$;
     this.user = this.dialogConfig.data?.user || null;
 
-    if (this.user) {
+    if (this.user && this.user.id) {
       this.transactionsService.loadTransactions(this.user.id);
     }
   }
@@ -102,7 +102,7 @@ export class UserTransactionsComponent {
       width: '400px',
       modal: true,
       dismissableMask: true,
-      data: { user: this.user, transaction: transaction },
+      data: { user: this.user, transaction: transaction, isExternal: true },
     });
   }
 

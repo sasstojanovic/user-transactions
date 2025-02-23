@@ -1,4 +1,4 @@
-<div class="mt-5" *ngIf="users && users.length">
+<div class="mt-5" *ngIf="users && users.length; else empty_list">
   <p-table
     [value]="users"
     class="text-white"
@@ -39,3 +39,6 @@
     </ng-template>
   </p-table>
 </div>
+<ng-template #empty_list>
+  <h3 class="text-gray-500">No users available.</h3>
+</ng-template>

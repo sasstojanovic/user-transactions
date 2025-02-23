@@ -1,4 +1,4 @@
-<div class="mt-5" *ngIf="transactions && transactions.length">
+<div class="mt-5" *ngIf="transactions && transactions.length; else empty_list">
   <p-table
     [value]="transactions"
     class="text-white"
@@ -43,3 +43,6 @@
     </ng-template>
   </p-table>
 </div>
+<ng-template #empty_list>
+  <h3 class="text-gray-500">No transactions available.</h3>
+</ng-template>

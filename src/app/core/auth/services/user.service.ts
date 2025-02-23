@@ -38,7 +38,7 @@ export class UserService {
 
   setAuth(userData: { user: User; accessToken: string }): void {
     this.jwtService.saveToken(userData.accessToken);
-    this.saveUserId(userData.user.id);
+    this.saveUserId(userData.user.id ?? 0);
     this.currentUserSubject.next(userData.user);
   }
 
@@ -90,6 +90,15 @@ export class UserService {
           this.currentUserSubject.next(updatedUser as User);
         })
       );
+  }
+
+  updateExternalUserAmount(userData: {
+    userId: number;
+    accountAmount: number;
+  }): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/users/${userData.userId}`, {
+      accountAmount: userData.accountAmount,
+    });
   }
 
   getUserAmount(userId: number): Observable<number> {

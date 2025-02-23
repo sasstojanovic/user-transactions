@@ -44,7 +44,7 @@ export class TransactionsComponent implements OnInit {
 
     this.currentUserSubscription = this.userService.currentUser.subscribe(
       (user) => {
-        if (user) {
+        if (user && user.id) {
           this.currentUser = user;
           this.transactionsService.loadTransactions(user.id);
         }
