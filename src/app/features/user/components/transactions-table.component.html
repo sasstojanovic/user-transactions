@@ -1,0 +1,45 @@
+<div class="mt-5" *ngIf="transactions && transactions.length">
+  <p-table
+    [value]="transactions"
+    class="text-white"
+    [paginator]="true"
+    [rows]="5"
+    [responsiveLayout]="'scroll'"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Date of purchase</th>
+        <th>Item purchased</th>
+        <th>Item category</th>
+        <th>Amount spent</th>
+        <th></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-transaction>
+      <tr>
+        <td>{{ transaction.dateOfPurchase | date: 'dd.MM.yyyy HH:mm' }}</td>
+        <td>{{ transaction.itemPurchased }}</td>
+        <td>{{ transaction.itemCategory }}</td>
+        <td class="text-emerald-400 font-bold">
+          {{ transaction.amountSpent | currency: 'USD' : 'symbol' : '1.0-0' }}
+        </td>
+        <td>
+          <button
+            pButton
+            icon="pi pi-file-edit"
+            class="p-button p-button-primary mr-2"
+            (click)="onEdit(transaction)"
+          ></button>
+
+          <button
+            pButton
+            icon="pi pi-trash"
+            class="p-button p-button-danger"
+            (click)="onDelete(transaction)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

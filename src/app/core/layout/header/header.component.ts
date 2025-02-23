@@ -1,40 +1,43 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+
+import { UserService } from '../../auth/services/user.service';
+
 import { ButtonModule } from 'primeng/button';
-import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
 import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { InputTextModule } from 'primeng/inputtext';
-import { CommonModule } from '@angular/common';
 import { Ripple } from 'primeng/ripple';
-import { UserService } from '../../auth/services/user.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
     RouterModule,
+    CommonModule,
     Menubar,
     BadgeModule,
     AvatarModule,
     InputTextModule,
     Ripple,
-    CommonModule,
     ButtonModule,
   ],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+  private destroyRef = inject(DestroyRef);
   items: MenuItem[] | undefined;
+
   constructor(
     private userService: UserService,
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.items = [
       {
         label: 'My Account',
@@ -47,6 +50,19 @@ export class HeaderComponent {
         routerLink: '/transactions',
       },
     ];
+
+    this.userService
+      .isAdmin()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((isAdmin) => {
+        if (isAdmin) {
+          this.items?.push({
+            label: 'Admin',
+            icon: 'pi pi-home',
+            routerLink: '/users',
+          });
+        }
+      });
   }
 
   signOut() {

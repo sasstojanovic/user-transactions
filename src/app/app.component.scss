@@ -9,6 +9,7 @@ app-header {
 main {
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 main.logged-in {

@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, BehaviorSubject } from 'rxjs';
 import { map, distinctUntilChanged, shareReplay } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+
 import { JwtService } from './jwt.service';
 import { User } from '../user.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +37,6 @@ export class UserService {
   }
 
   setAuth(userData: { user: User; accessToken: string }): void {
-    console.log('userData: ', userData);
     this.jwtService.saveToken(userData.accessToken);
     this.saveUserId(userData.user.id);
     this.currentUserSubject.next(userData.user);
@@ -54,7 +54,6 @@ export class UserService {
     return this.http.get<User>(`${this.apiUrl}/users/${userId}`).pipe(
       tap({
         next: (user) => {
-          console.log('USER: ', user);
           this.currentUserSubject.next(user);
         },
         error: () => this.purgeAuth(),
@@ -82,7 +81,6 @@ export class UserService {
     userId: number;
     accountAmount: number;
   }): Observable<any> {
-    console.log('userData: ', userData);
     return this.http
       .patch(`${this.apiUrl}/users/${userData.userId}`, {
         accountAmount: userData.accountAmount,
@@ -92,5 +90,23 @@ export class UserService {
           this.currentUserSubject.next(updatedUser as User);
         })
       );
+  }
+
+  getUserAmount(userId: number): Observable<number> {
+    return this.http
+      .get<User>(`${this.apiUrl}/users/${userId}`)
+      .pipe(map((user) => user.accountAmount ?? 0));
+  }
+
+  isAdmin(): Observable<boolean> {
+    return this.currentUser.pipe(map((user) => user?.role === 'admin'));
+  }
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/users`);
+  }
+
+  deleteUser(userId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/users/${userId}`);
   }
 }

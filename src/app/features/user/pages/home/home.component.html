@@ -9,7 +9,7 @@
     <p class="text-lg text-white mb-6">
       Your current balance is
       <span class="text-emerald-400 font-semibold">{{
-        currentUser?.accountAmount | currency: 'USD' : true : '1.0-0'
+        currentUser?.accountAmount | currency: 'USD' : 'symbol' : '1.0-0'
       }}</span>
     </p>
     <button

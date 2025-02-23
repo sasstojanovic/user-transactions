@@ -1,28 +1,120 @@
 {
   "users": [
     {
-      "id": 2,
-      "name": "James",
-      "surname": "Lebron",
-      "email": "james.lebron@example.com",
-      "password": "123456",
-      "accountAmount": 3000
-    },
-    {
       "email": "luka.doncic@example.com",
       "password": "$2a$10$FkaNEFQQVuQFPElwuYc4JeTAQdl68zFG.8OXk6DfuOTrK3s2dkMem",
       "name": "Luka",
       "surname": "Doncic",
-      "accountAmount": 105,
-      "id": 3
+      "accountAmount": 999988,
+      "id": 3,
+      "role": "user"
     },
     {
-      "email": "sasa.stojanovic@outlook.com",
-      "password": "$2a$10$pO0ClNcRVPQEACCo6ADx6uyHPlO3Q8si9Zc8xMT7V2TkgQHbsqwyq",
+      "email": "admin@kireygroup.com",
+      "password": "$2a$10$ApbDO8/Wr5IARIUhENiZW.WWhmvQpcm1z7fbGApg2L4oUM8tGP1GO",
+      "name": "admin",
+      "surname": "admin",
+      "accountAmount": 100,
+      "id": 5,
+      "role": "admin"
+    },
+    {
+      "email": "admin@kireyggfhgfhgfroup.com",
+      "password": "$2a$10$tCWbAVfKPRJXTWL.5T5EtOxaqI2JNK08Tg93P0j9uNRigByeyAutm",
       "name": "Saša",
       "surname": "Stojanović",
-      "accountAmount": 3,
-      "id": 4
+      "accountAmount": "50",
+      "id": 6
+    },
+    {
+      "email": "admdfgdfin@kireygroufdgfdgdfgfdgdp.com",
+      "password": "$2a$10$Z44h5HcabZlyZXFMAzjhl.he0bpoKDfbiTAwEHewQaPbB/dFLoQVS",
+      "name": "Saša",
+      "surname": "Stojanović",
+      "accountAmount": "20",
+      "id": 7
+    },
+    {
+      "email": "admisdfsdn@kisdfreysdfsdgroup.com",
+      "password": "$2a$10$pKzP1yU1LaUHS3UF6FVozeB6DuZs1bQy/IgYjUi4mctHF8FqanCoi",
+      "name": "Saša",
+      "surname": "Stojanović",
+      "accountAmount": "50",
+      "id": 8
+    }
+  ],
+  "transactions": [
+    {
+      "id": 1,
+      "dateOfPurchase": "2025-02-18T00:51:55.000Z",
+      "itemPurchased": "Anthony Edwards 1 Low Shoes",
+      "itemCategory": "Basketball",
+      "amountSpent": "10",
+      "userId": 3
+    },
+    {
+      "id": 2,
+      "dateOfPurchase": "2025-02-18T00:51:55.000Z",
+      "itemPurchased": "Harden Volume 9 Shoes",
+      "itemCategory": "Basketball",
+      "amountSpent": "160",
+      "userId": 3
+    },
+    {
+      "id": 3,
+      "dateOfPurchase": "2025-02-11T20:51:55.000Z",
+      "itemPurchased": "12",
+      "itemCategory": "Basketball",
+      "amountSpent": "120",
+      "userId": 3
+    },
+    {
+      "id": 4,
+      "dateOfPurchase": "2025-02-18T00:51:55.000Z",
+      "itemPurchased": "Dame Certified 3 Low Shoes",
+      "itemCategory": "Basketball",
+      "amountSpent": "85",
+      "userId": 3
+    },
+    {
+      "id": 5,
+      "dateOfPurchase": "2025-02-18T00:51:55.000Z",
+      "itemPurchased": "Harden Volume 8 Shoes",
+      "itemCategory": "Basketball",
+      "amountSpent": "160",
+      "userId": 5
+    },
+    {
+      "id": 7,
+      "dateOfPurchase": "2025-02-18T00:51:55.000Z",
+      "itemPurchased": "Harden Volume 9 Shoes",
+      "itemCategory": "Basketball",
+      "amountSpent": "160",
+      "userId": 3
+    },
+    {
+      "id": 9,
+      "dateOfPurchase": "2025-02-18T00:51:55.000Z",
+      "itemPurchased": "Anthony Edwards 1 Low Nick's Gift Shoes",
+      "itemCategory": "Basketball",
+      "amountSpent": "110",
+      "userId": 5
+    },
+    {
+      "id": 10,
+      "dateOfPurchase": "2025-02-18T00:51:55.000Z",
+      "itemPurchased": "Harden Volume 9 Shoes",
+      "itemCategory": "Basketball",
+      "amountSpent": "160",
+      "userId": 5
+    },
+    {
+      "itemPurchased": "test 2",
+      "itemCategory": "test",
+      "dateOfPurchase": "2025-02-26T11:32:52.000Z",
+      "amountSpent": "12",
+      "userId": 3,
+      "id": 12
     }
   ]
 }

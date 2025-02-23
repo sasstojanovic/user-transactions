@@ -1,4 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.c-spinner {
+  width: 25px;
+  height: 25px;
+}
+
+.c-spinner .p-progressspinner-circle {
+  stroke: #000 !important;
+}
+
+.c-error-info {
+  height: 20px;
+}
+
+.c-error-info small {
+  display: block;
+  color: var(--p-red-400);
+}
+
+p-datepicker {
+  width: 100% !important;
+}
+
+p-datepicker .p-datepicker {
+  display: flex !important;
+}
+
+p-menubar .p-menubar {
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}

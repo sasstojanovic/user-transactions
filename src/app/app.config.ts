@@ -13,7 +13,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { JwtService } from './core/auth/services/jwt.service';
 import { UserService } from './core/auth/services/user.service';
 import { EMPTY } from 'rxjs';
-
+import { ConfirmationService } from 'primeng/api';
 export function initAuth(jwtService: JwtService, userService: UserService) {
   return () => (jwtService.getToken() ? userService.getCurrentUser() : EMPTY);
 }
@@ -38,5 +38,6 @@ export const appConfig: ApplicationConfig = {
       deps: [JwtService, UserService],
       multi: true,
     },
+    ConfirmationService,
   ],
 };

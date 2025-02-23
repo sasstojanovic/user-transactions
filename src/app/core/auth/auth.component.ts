@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { NgClass, NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
@@ -7,18 +8,15 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { UserService } from './services/user.service';
-import { Router } from '@angular/router';
-import { Errors } from '../models/errors.model';
 
+import { UserService } from './services/user.service';
+import { RegistrationComponent } from './registration.component';
+
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-
-import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { RegistrationComponent } from './registration.component';
-import { InfoDialogComponent } from '../../shared/components/info-dialog.component';
 
 interface SigninForm {
   email: FormControl<string | null>;
@@ -37,7 +35,6 @@ interface SigninForm {
     NgClass,
   ],
   templateUrl: './auth.component.html',
-  styleUrl: './auth.component.scss',
   providers: [DialogService, MessageService],
 })
 export class AuthComponent {
@@ -45,7 +42,7 @@ export class AuthComponent {
   isSubmitting = false;
   destroyRef = inject(DestroyRef);
   signInForm: FormGroup<SigninForm>;
-  ref: DynamicDialogRef | undefined;
+  dialogRef: DynamicDialogRef | undefined;
 
   constructor(
     private userService: UserService,
@@ -79,9 +76,8 @@ export class AuthComponent {
           next: () => {
             this.router.navigate(['/']);
           },
-          error: (response) => {
-            this.errors = response.error;
-            console.log('Errors: ', response);
+          error: (err) => {
+            this.errors = err.error;
             this.isSubmitting = false;
           },
         });
@@ -89,15 +85,11 @@ export class AuthComponent {
   }
 
   onSignUp() {
-    this.ref = this.dialogService.open(RegistrationComponent, {
+    this.dialogRef = this.dialogService.open(RegistrationComponent, {
       header: 'Sign Up',
       width: '400px',
       modal: true,
       dismissableMask: true,
-    });
-
-    this.ref.onClose.subscribe(() => {
-      console.log('CLOSE');
     });
   }
 }

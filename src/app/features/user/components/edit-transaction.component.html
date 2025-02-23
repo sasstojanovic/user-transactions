@@ -1,0 +1,138 @@
+<div>
+  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="itemPurchased" class="block text-sm font-medium"
+        >Purchased Item</label
+      >
+      <input
+        id="itemPurchased"
+        pInputText
+        formControlName="itemPurchased"
+        class="w-full p-2 border rounded mt-1"
+        [ngClass]="{
+          'p-invalid': itemPurchased!.invalid && itemPurchased!.touched,
+        }"
+      />
+      <div class="c-error-info">
+        <div
+          *ngIf="itemPurchased!.invalid && itemPurchased!.touched"
+          class="p-error"
+        >
+          <small *ngIf="itemPurchased!.errors?.['required']"
+            >Purchased Item is required</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="itemCategory" class="block text-sm font-medium"
+        >Category</label
+      >
+      <input
+        id="itemCategory"
+        pInputText
+        formControlName="itemCategory"
+        class="w-full p-2 border rounded mt-1"
+        [ngClass]="{
+          'p-invalid': itemCategory!.invalid && itemCategory!.touched,
+        }"
+      />
+      <div class="c-error-info">
+        <div
+          *ngIf="itemCategory!.invalid && itemCategory!.touched"
+          class="p-error"
+        >
+          <small *ngIf="itemCategory!.errors?.['required']"
+            >Category is required</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="dateOfPurchase" class="block text-sm font-medium"
+        >Time And Date</label
+      >
+      <p-datepicker
+        formControlName="dateOfPurchase"
+        [showTime]="true"
+        appendTo="body"
+      />
+      <div class="c-error-info">
+        <div
+          *ngIf="dateOfPurchase!.invalid && dateOfPurchase!.touched"
+          class="p-error"
+        >
+          <small *ngIf="dateOfPurchase!.errors?.['required']"
+            >Date is required</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="amountSpent" class="block text-sm font-medium"
+        >Amount Spent</label
+      >
+      <input
+        id="amountSpent"
+        pInputText
+        formControlName="amountSpent"
+        class="w-full p-2 border rounded mt-1"
+        [ngClass]="{
+          'p-invalid': amountSpent!.invalid && amountSpent!.touched,
+        }"
+      />
+      <div class="c-error-info">
+        <div
+          *ngIf="amountSpent!.invalid && amountSpent!.touched"
+          class="p-error"
+        >
+          <small *ngIf="amountSpent!.errors?.['required']"
+            >Amount is required</small
+          >
+          <small *ngIf="amountSpent!.errors?.['pattern']"
+            >Enter a valid amount</small
+          >
+          <small *ngIf="amountSpent!.errors?.['amountSpent']"
+            >Amount cannot exceed the available account balance.</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="flex gap-2 mt-4">
+      <button
+        type="submit"
+        pButton
+        [disabled]="transactionForm.invalid || isSubmitting"
+        class="w-1/2 mt-2"
+      >
+        <p-progress-spinner
+          *ngIf="isSubmitting"
+          strokeWidth="4"
+          fill="transparent"
+          [style]="{ width: '25px', height: '25px' }"
+          class="c-spinner"
+        ></p-progress-spinner>
+
+        <span *ngIf="!isSubmitting" class="p-button-label"
+          >Save transaction</span
+        >
+      </button>
+      <button
+        type="button"
+        pButton
+        label="Cancel"
+        class="w-1/2 mt-2 p-button-secondary"
+        (click)="onCancel()"
+      ></button>
+    </div>
+    <div class="c-error-info">
+      <div *ngIf="errors" class="p-error">
+        <small>{{ errors }}</small>
+      </div>
+    </div>
+  </form>
+</div>

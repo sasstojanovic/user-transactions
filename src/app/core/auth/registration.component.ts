@@ -1,4 +1,14 @@
 import { Component, DestroyRef, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  catchError,
+  debounceTime,
+  first,
+  Observable,
+  of,
+  switchMap,
+} from 'rxjs';
 import {
   FormGroup,
   FormControl,
@@ -8,27 +18,18 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
+
 import { UserService } from './services/user.service';
-import { MessageService } from 'primeng/api';
-import { CommonModule } from '@angular/common';
+import { User } from './user.model';
+import { InfoDialogComponent } from '../../shared/components/info-dialog.component';
+
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { User } from './user.model';
-import { InfoDialogComponent } from '../../shared/components/info-dialog.component';
-import {
-  catchError,
-  debounceTime,
-  first,
-  Observable,
-  of,
-  switchMap,
-} from 'rxjs';
 
 @Component({
   selector: 'app-registration',
@@ -43,8 +44,6 @@ import {
     ProgressSpinnerModule,
   ],
   templateUrl: './registration.component.html',
-  styleUrl: './registration.component.scss',
-  providers: [],
 })
 export class RegistrationComponent {
   errors: any = null;
@@ -54,10 +53,9 @@ export class RegistrationComponent {
 
   constructor(
     private userService: UserService,
-    private messageService: MessageService,
-    public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    public dialogRef: DynamicDialogRef,
+    public config: DynamicDialogConfig
   ) {
     this.registrationForm = new FormGroup({
       name: new FormControl('', [Validators.required]),
@@ -109,28 +107,31 @@ export class RegistrationComponent {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: () => {
-            this.ref.close();
-            this.ref = this.dialogService.open(InfoDialogComponent, {
-              data: {
-                message: 'The account has been successfully created!',
-              },
-              header: 'Sign Up',
-              width: '400px',
-              modal: true,
-              dismissableMask: true,
-            });
+            this.openSuccessDialog();
           },
-          error: (response) => {
-            this.errors = response.error;
-            console.log('Errors: ', response);
+          error: (err) => {
+            this.errors = err.error;
             this.isSubmitting = false;
           },
         });
     }
   }
 
+  openSuccessDialog() {
+    this.dialogRef.close();
+    this.dialogRef = this.dialogService.open(InfoDialogComponent, {
+      data: {
+        message: 'The account has been successfully created!',
+      },
+      header: 'Sign Up',
+      width: '400px',
+      modal: true,
+      dismissableMask: true,
+    });
+  }
+
   onCancel() {
-    this.ref.close();
+    this.dialogRef.close();
   }
 
   emailExistsValidator(): AsyncValidatorFn {

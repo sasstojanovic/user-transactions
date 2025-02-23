@@ -1,0 +1,8 @@
+<div>
+  <app-transactions-table
+    *ngIf="transactions$ | async as transactions"
+    [transactions]="transactions"
+    (editTransaction)="onEdit($event)"
+    (deleteTransaction)="onDelete($event)"
+  ></app-transactions-table>
+</div>

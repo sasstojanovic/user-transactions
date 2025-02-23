@@ -1,35 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../../core/auth/services/user.service';
-import { User } from '../../../../core/auth/user.model';
-import { ButtonModule } from 'primeng/button';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
 import { ChangeAmountComponent } from '../../components/change-amount.component';
+import { User } from '../../../../core/auth/user.model';
+
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ButtonModule } from 'primeng/button';
+import { MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, ButtonModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
   providers: [DialogService, MessageService],
 })
 export class HomeComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
+  private currentUserSubscription!: Subscription;
   currentUser: User | null = null;
   ref: DynamicDialogRef | undefined;
+
   constructor(
     private userService: UserService,
-    private router: Router,
     private dialogService: DialogService,
     public messageService: MessageService
   ) {}
 
   ngOnInit() {
-    this.userService.currentUser.subscribe((user) => {
-      this.currentUser = user;
-      console.log(this.currentUser);
+    this.currentUserSubscription = this.userService.currentUser.subscribe(
+      (user) => {
+        this.currentUser = user;
+      }
+    );
+
+    this.destroyRef.onDestroy(() => {
+      this.currentUserSubscription.unsubscribe();
     });
   }
 
@@ -40,10 +47,6 @@ export class HomeComponent implements OnInit {
       modal: true,
       dismissableMask: true,
       data: { user: this.currentUser },
-    });
-
-    this.ref.onClose.subscribe(() => {
-      console.log('CLOSE');
     });
   }
 }

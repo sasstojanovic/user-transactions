@@ -1,7 +1,7 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { UserService } from './services/user.service';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const userService = inject(UserService);
@@ -9,15 +9,13 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   return userService.isAuthenticated.pipe(
     take(1),
-    map((isAuth) => {
-      if (route.routeConfig?.path === 'signin' && isAuth) {
-        router.navigate(['/']);
-        return false;
-      }
+    tap((isAuth) => {
       if (!isAuth) {
-        return true;
+        router.navigate(['/signin']);
+      } else if (route.routeConfig?.path === 'signin') {
+        router.navigate(['/']);
       }
-      return true;
-    })
+    }),
+    map((isAuth) => route.routeConfig?.path !== 'signin' || !isAuth)
   );
 };
